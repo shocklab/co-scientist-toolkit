@@ -37,9 +37,9 @@ The papers plugin registers `hook.sh <event>` for these events:
 - PreToolUse on Read, Grep and Bash refuses the classes listed under Verdicts. For Read, it checks
   PDFs and any file within three levels of a `license.json`. For Grep, it checks searches whose
   path is a PDF or is covered by a `license.json`. If the search has no path, it checks the working
-  directory on the same basis. For Bash, it examines commands that mention a PDF, `.md`,
-  `fulltext`, `figures` or `tables`. It refuses a command that names a refused PDF or a file or
-  folder covered by a `license.json`. Commands made only of file-handling programs such as `ls`,
+  directory on the same basis. For Bash, it examines commands that mention a PDF or name a file,
+  folder or glob within three levels of a `license.json` or holding one in a subfolder. It
+  refuses a command that names a refused PDF or a file or folder covered by a `license.json`. Commands made only of file-handling programs such as `ls`,
   `mv`, `cp`, `rm` and `git`, and `license-check` itself, are passed. Before an identified PDF is
   read, the hook looks it up in OpenAlex. The first lookup takes up to ten seconds and is cached
   for 30 days.
@@ -91,8 +91,7 @@ command use the same folder, including when `academic-pdf-to-mkd` runs the comma
   a DOI, is refused until the lookup works, and a refusal made while OpenAlex is turning away
   requests is retried after ten minutes.
 - The hook checks files extracted from a refused paper when Claude reads or searches them. It
-  also checks Bash commands that name those files and mention `.md`, `fulltext`, `figures`,
-  `tables` or a PDF.
+  also checks Bash commands that name those files, their folders or a glob over them.
 - Reading a PDF needs poppler (`brew install poppler` on a Mac), with `pdftotext` and `pdfinfo`
   on the PATH. If either is missing, the hook refuses the PDF with a message saying that it needs
   poppler to check it.
