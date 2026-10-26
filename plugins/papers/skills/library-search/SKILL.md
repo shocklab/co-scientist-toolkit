@@ -27,9 +27,11 @@ python3 "${CLAUDE_SKILL_DIR}/scripts/library_search.py" forget ~/project/papers
 - The index lives at `~/.local/state/library-search/library.sqlite`; `--db FILE` (before the
   command) uses another, for example one per project.
 
-Always run the script by the `${CLAUDE_SKILL_DIR}` path above. The licence hook lets this copy
-run over folders that hold refused papers, because the script applies the licence records itself;
-it refuses the same command run through a copy of the script anywhere else.
+Always run the script by the `${CLAUDE_SKILL_DIR}` path above, written out in full in each
+command (not through a shell variable, which the hook cannot see through), and run each command on
+its own rather than chaining it with others. The licence hook lets this copy run over folders that
+hold refused papers, because the script applies the licence records itself; it refuses the same
+command run through a variable or through a copy of the script anywhere else.
 
 ## Searching well
 
