@@ -1331,9 +1331,9 @@ def guard_extracted(data, paths, via):
 
 
 def command_paths(cmd, cwd):
-    """Existing files and folders named in a command."""
+    """Existing files and folders named in a command, with globs expanded as the shell would."""
     try:
-        toks = shlex.split(cmd, posix=True)
+        toks = [t for seg in segments(cmd) for t in seg]  # "a.md;" is the path a.md
     except ValueError:
         toks = cmd.split()
     out = []
@@ -1344,9 +1344,11 @@ def command_paths(cmd, cwd):
             p = os.path.expanduser(piece)
             if not os.path.isabs(p):
                 p = os.path.join(cwd, p)
-            if os.path.exists(p) and p not in out:
-                out.append(p)
-    return out[:40]
+            found = [p] if os.path.exists(p) or not any(c in p for c in "*?[") else sorted(glob.glob(p))
+            for q in found:
+                if os.path.exists(q) and q not in out:
+                    out.append(q)
+    return out[:500]
 
 
 def h_post_read(data):
