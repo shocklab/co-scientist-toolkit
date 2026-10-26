@@ -29,6 +29,11 @@ The `papers` plugin turns a paper into text on your machine, and Claude reads th
 3. Claude reads the Markdown a section at a time, searches it with `grep`, and can come back to it
    in a later session without converting it again.
 
+`library-search` indexes the converted Markdown and the arXiv source under the folders you name, a
+passage at a time, so Claude can find which of your papers discusses something and go to the lines.
+It uses SQLite's full-text search and needs only Python. A paper the licence check refuses is
+indexed by its title and identifiers, never its text.
+
 `reference-verifier` checks a bibliography against Crossref, OpenAlex, Semantic Scholar and arXiv.
 It accepts a `.bib` or `.tex` file, or a PDF or Word manuscript's reference list, which Claude first
 copies into a `.bib`. It reports references it cannot find and details that disagree with the

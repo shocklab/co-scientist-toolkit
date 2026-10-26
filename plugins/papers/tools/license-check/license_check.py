@@ -1378,6 +1378,10 @@ HARMLESS = {"ls", "mv", "cp", "rm", "open", "du", "stat", "file", "pdfinfo", "md
             "realpath", "readlink", "basename", "dirname", "xattr", "git", "zip", "unzip", "tar", "rsync",
             "scp", "curl", "wget", "license-check", "trash", "chmod", "cd", "pwd", "true", "which", "type"}
 PY_RE = re.compile(r"^(i?python|pypy)(\d+(\.\d+)*)?$")
+# The papers plugin's library search applies the licence records itself (a refused paper is indexed by
+# title only), so its own copy may be run over folders holding refused papers; a copy elsewhere may not.
+LIBRARY_SEARCH = os.path.realpath(os.path.join(HERE, "..", "..", "skills", "library-search", "scripts",
+                                               "library_search.py"))
 SHELL_WORDS = {"then", "do", "done", "fi", "else", "elif", "esac", "while", "until", "if", "!", "{", "}", "in"}
 
 
@@ -1396,7 +1400,7 @@ def segments(cmd):
     return out
 
 
-def harmless(cmd):
+def harmless(cmd, cwd=None):
     try:
         segs = segments(cmd)
     except ValueError:
@@ -1414,6 +1418,9 @@ def harmless(cmd):
         if prog in HARMLESS:
             continue
         if PY_RE.match(prog) and len(seg) > i + 1 and os.path.basename(seg[i + 1]) == "license_check.py":
+            continue
+        if PY_RE.match(prog) and len(seg) > i + 1 and os.path.realpath(
+                os.path.join(cwd or os.getcwd(), os.path.expanduser(seg[i + 1]))) == LIBRARY_SEARCH:
             continue
         return False
     return True
@@ -1448,9 +1455,9 @@ def pdf_paths(cmd, cwd):
 
 def h_pre_bash(data):
     cmd = (data.get("tool_input") or {}).get("command") or ""
-    if harmless(cmd):
-        return None
     cwd = data.get("cwd") or os.getcwd()
+    if harmless(cmd, cwd):
+        return None
     if ".pdf" in cmd.lower():
         for p in pdf_paths(cmd, cwd):
             r = assess_file(p, "pre")
@@ -1463,7 +1470,7 @@ def h_pre_bash(data):
 
 def h_post_bash(data):
     cmd = (data.get("tool_input") or {}).get("command") or ""
-    if ".pdf" not in cmd.lower() or harmless(cmd):
+    if ".pdf" not in cmd.lower() or harmless(cmd, data.get("cwd")):
         return None
     sess = data.get("session_id")
     shown = []

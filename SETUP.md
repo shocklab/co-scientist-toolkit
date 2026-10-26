@@ -94,7 +94,7 @@ Then ask these questions one at a time:
   of models. The maths engine, MinerU, downloads 4.5 GB more.
 - "Do you use Zotero?" `zotero-import` needs the Zotero 7 or later desktop app.
 
-`arxiv-fetcher`, `paper-review` and `claim-fact-checker` need nothing more.
+`arxiv-fetcher`, `library-search`, `paper-review` and `claim-fact-checker` need nothing more.
 `paper-review` uses LaTeX if it is installed.
 
 Meetings and interviews. Ask: "Do you record calls, or transcribe interviews or lectures?"

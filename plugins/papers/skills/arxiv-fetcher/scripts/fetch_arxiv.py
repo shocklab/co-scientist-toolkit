@@ -226,6 +226,13 @@ def _extract_members(tar: tarfile.TarFile, dest: Path) -> None:
             tar.extract(member, dest)
 
 
+TEX_MARK = re.compile(r"\\(documentclass|documentstyle|begin|input|def|bye|title|section|magnification)\b")
+
+
+def _looks_like_tex(text: str) -> bool:
+    return bool(TEX_MARK.search(text[:200000]))
+
+
 def extract_source(data: bytes, dest: Path) -> bool:
     """Extract arXiv source into dest directory.
 
@@ -257,9 +264,9 @@ def extract_source(data: bytes, dest: Path) -> bool:
     # Try as single gzipped file
     try:
         decompressed = gzip.decompress(data)
-        # Check if it looks like tex
+        # Check if it looks like tex (LaTeX, or plain TeX such as harvmac papers)
         text = decompressed.decode("utf-8", errors="replace")
-        if "\\document" in text or "\\begin" in text:
+        if _looks_like_tex(text):
             (dest / "main.tex").write_bytes(decompressed)
             return True
     except (gzip.BadGzipFile, EOFError):
@@ -268,7 +275,7 @@ def extract_source(data: bytes, dest: Path) -> bool:
     # Try as plain text (some very old papers)
     try:
         text = data.decode("utf-8")
-        if "\\document" in text or "\\begin" in text:
+        if _looks_like_tex(text):
             (dest / "main.tex").write_bytes(data)
             return True
     except UnicodeDecodeError:
