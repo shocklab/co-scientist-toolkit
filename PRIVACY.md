@@ -37,6 +37,7 @@ and error reports. These details are from Anthropic's
 | `arxiv-fetcher` | The arXiv ID | arxiv.org; for the licence lookup, OpenAlex, Crossref, Semantic Scholar | Each fetch |
 | `academic-pdf-to-mkd` | Nothing about the paper. Model weights are downloaded on first use, and later runs may ask Hugging Face for updates, sending only the model's name; both engines convert papers with the network blocked | Hugging Face (about 0.5 GB; 4.5 GB more for the maths engine) | First use of each engine |
 | `library-search` | Nothing. The index stays in `~/.local/state/library-search/` | | |
+| `paper-provenance` | Nothing. It runs the commands in your project's record on your machine | | |
 | `reference-verifier` | Each reference's DOI, arXiv ID, or title and authors. If you set `REFVERIFY_CONTACT_EMAIL`, your email also goes to all four services | Crossref, OpenAlex, Semantic Scholar, arXiv | Each run |
 | `zotero-import` | Each PDF's DOI or arXiv ID. For a PDF with neither, up to 200 characters of its title, read from its first page or the PDF's own metadata. The rest of the text is never sent | Crossref, DataCite, OpenAlex, Semantic Scholar, arXiv | Each import |
 | `paper-review`, `claim-fact-checker` | The draft and its sources go to Claude. Search queries are also sent. `paper-review` also requests open copies of the papers the draft cites | Anthropic; the web search Claude uses; arXiv and open-access sites; alphaXiv if you have connected it | Each run |

@@ -43,7 +43,7 @@ Resolve paths inline first, as the workflow has no filesystem access. Then pass 
 1. Choose the preset and read `${CLAUDE_SKILL_DIR}/presets/<name>.json`.
 2. Resolve the paths. Ask for the target file(s) if none were given, and for the sources folder. For `paper-review`, use the folder written by `papers:academic-pdf-to-mkd`; for `document`, use the folder the user names. Expand the preset's `sourcesGlob` into absolute file lists. If there are no archived sources, tell the user that the run will mark every claim unsourced. That is itself a finding.
 3. Tell the user the cost and wait for a go-ahead. Read the target(s) and report the extracted claim count, or estimate it from the text if extraction has not run. Count two agents per claim (verifier and skeptic), one extractor per target file and one synthesis agent. For example, 40 claims in one file requires 82 agents. Do not launch until the user says to go ahead in chat.
-4. Run the workflow with `Workflow({ scriptPath: "${CLAUDE_SKILL_DIR}/workflows/fact-check.workflow.js", args })`, where:
+4. Read `${CLAUDE_SKILL_DIR}/workflows/fact-check.workflow.js` and run it by passing its whole text inline: `Workflow({ script: "<the file's text>", args })`. Do not use `scriptPath`, which is refused for a file outside the working directory. `args` is:
 
    ```json
    {

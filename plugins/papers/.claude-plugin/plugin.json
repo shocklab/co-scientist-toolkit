@@ -2,7 +2,7 @@
   "name": "papers",
   "displayName": "Papers",
   "version": "0.1.0",
-  "description": "Fetch arXiv source, turn PDFs into Markdown locally, search your papers, verify references, review papers and import them into Zotero, with a hook that keeps the full text of subscription papers out of the conversation",
+  "description": "Fetch arXiv source, turn PDFs into Markdown locally, search your papers, trace each number in a paper to its source, verify references, review papers and import them into Zotero, with a hook that keeps the full text of subscription papers out of the conversation",
   "author": {
     "name": "Jonathan Shock",
     "url": "https://github.com/shocklab"

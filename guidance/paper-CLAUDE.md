@@ -27,7 +27,8 @@ Read this file and `notes/decision-log.md` before doing anything else.
   (format below).
 - `CONTEXT.md`: a glossary of the project's terms. Update it when a term is defined or changes
   meaning.
-- `paper/`: the manuscript.
+- `paper/`: the manuscript, and `paper/provenance.tsv`, which ties each number and fact in it to the
+  calculation, file or citation behind it (the `paper-provenance` skill sets out the format).
 
 If this file holds anything you would not publish, keep it out of git by listing `CLAUDE.md` in your
 global gitignore.
@@ -40,6 +41,9 @@ global gitignore.
   or institution without a source in `source-material/`.
 - Never edit `source-material/` or `data/raw/`. To change an output, change the script and rerun.
 - The conversation is not the archive: sources, scripts, outputs and decisions go on disk.
+- Every number and fact written into the manuscript gets a row in `paper/provenance.tsv` in the same
+  edit, and `scripts/` holds the calculation for each computed number. Run the `paper-provenance`
+  check before saying a section is finished.
 - Data that matters never lives only in `/tmp` or on scratch space without a backup.
 
 ## Evidence and tests
@@ -74,7 +78,7 @@ departures from a fixed protocol, and test repairs as such in the Decision colum
 - A PDF or preprint: `academic-pdf-to-mkd`, or `arxiv-fetcher` for arXiv source.
 - Critique the draft: `paper-review`.
 - Check claims against sources: `claim-fact-checker`. Check that the references exist and match:
-  `reference-verifier`.
+  `reference-verifier`. Trace each number and fact to its source: `paper-provenance`.
 
 ## Corrections
 

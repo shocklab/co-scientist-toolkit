@@ -42,7 +42,9 @@ experiments, writing, positioning, internal consistency and the strongest object
 claim. It reconciles
 their reviews and applies changes with your approval at each round. `claim-fact-checker` checks
 each factual claim in a report against its sources, with one agent checking the claim and a second
-checking the source's quality. `zotero-import` imports a folder of downloaded papers into a Zotero
+checking the source's quality. `paper-provenance` keeps a record tying each number and fact in a paper to the calculation, file or
+citation behind it, and a script fails if a number has no record or its calculation no longer gives
+what the paper prints. `zotero-import` imports a folder of downloaded papers into a Zotero
 collection with real metadata. It reads each PDF on your machine, looks it up by DOI, arXiv ID or
 title, and skips papers already in your library. Claude receives a report to review, without the
 papers themselves.
