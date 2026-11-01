@@ -53,6 +53,8 @@ When fixing something, read the underlying material before choosing a reference 
 
 Regenerate each number from its source when you write it. Do not copy it from earlier in the conversation. Recompute each p-value for the exact pair being compared.
 
+In a paper, computed numbers reach the text from code: a script generates them, the text uses their names, and each has its source noted. Do not type a computed result.
+
 Compute a bound ("at most"), a range or an agreement "to six places" from stored values, not rounded output. Where a project has superseded data, make reading it raise an error rather than return a number.
 
 ### Scope of claims
