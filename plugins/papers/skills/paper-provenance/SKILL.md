@@ -34,7 +34,14 @@ and write `\accOurs{}` in the text. Command names take letters only, no digits.
 - Change a number by changing the data or the script and regenerating. Never edit a generated file.
 
 Generated numbers need no row in the record. The check reruns each command and compares the output
-with the file, so a stale or hand-edited number fails.
+with the file, so a stale or hand-edited number fails. For a Python generator it also records which
+project files it reads, and each must be a declared source (`MANIFEST.txt` and code excepted). In a
+temporary copy it then alters each declared text source, and every decimal must change when its
+sources do, so a constant presented as a result fails. Whole numbers that do not change go to the
+review list. A threshold you chose, such as 0.05, is typed with an `exempt` row, not generated. Your
+data is not touched. Keep sources in
+`results/` or `data/`, and compute from stored results rather than rerunning an experiment, because
+the generator runs several times.
 
 These stay typed, with a row: numbers from other papers (`citation`), settings you chose (`exempt`,
 or a `file` row with a reason), and every number in a Markdown manuscript, which has no named numbers.
@@ -83,7 +90,9 @@ worse than that of their 110-layer network		citation	he2016: section 4.2
 Add the number to the script, or the row to the record, in the same edit as the sentence. Never copy
 a number from the conversation. In Markdown, write the number from the calculation and record that
 calculation. A number with no route goes back to the author rather than into the paper: leave it out
-or mark it in the text for them.
+or mark it in the text for them. A value the code does not reproduce stays a failure until the author
+settles it; never record it as `exempt`. One `*` `exempt` row covers every occurrence of a model name
+such as `Llama 3.2 1B`.
 
 Facts have no digits for a script to find. Give every factual sentence that is not common knowledge
 in the field a citation in the text and a `citation` row, and check the sentence against the
@@ -96,10 +105,17 @@ python3 "${CLAUDE_SKILL_DIR}/scripts/check_provenance.py" paper/main.tex --ledge
 ```
 
 The commands in the record run with the shell, so read a record you did not write before running
-it, or pass `--no-run` to check everything else. Exit code 0 means every digit-written number has a
-record or comes from a generated file, and all of them hold. On failure, fix the paper or the calculation. Never edit a number to
-make the check pass without finding out which side is wrong, and never add an `exempt` row for a
-result.
+it, or pass `--no-run` to check everything else. On failure (exit code 1), fix the paper or the
+calculation. Never edit a number to make the check pass without finding out which side is wrong, and
+never add an `exempt` row for a result.
+
+Exit code 3 means everything the script can test holds, and it lists what only a person can judge:
+`exempt` and `typed` rows, numbers quoted from citations, generators it could not trace or that run
+other programs or stop when altered, binary sources, sources outside `results/` and `data/`, local
+style files and decimals in display equations.
+Exit code 0 means that list is empty or acknowledged. Report exit code 3 as waiting for the author,
+never as a pass. The author reads the list and runs the same command with `--ack` in a terminal.
+Never write the `.reviewed` file yourself. Changing a listed entry brings it back.
 
 Then:
 
@@ -113,15 +129,23 @@ Then:
 
 Say these when reporting a pass.
 
-- It scans digit-written numbers in prose, tables, captions, footnotes, inline maths, `\input` files
-  and macro definitions. It does not scan display equations, code, comments or front matter, so a
-  result stated only there needs a row added by hand.
-- It checks that a generated file is what its command prints now, and that each calculation gives
-  the printed number. It refuses a decimal value written into the generator itself. It cannot show
-  that the command uses its source files properly, or that the analysis is right, and a value kept
-  in another file the generator reads would pass.
-- It trusts the kind a row states, so a result recorded as `exempt` escapes the rule. Read the
-  `exempt` and `typed` rows when you report a pass.
+- It scans digit-written numbers in prose, tables, captions, footnotes, inline maths, the files a
+  manuscript brings in, macro definitions and the title. It does not scan code, verbatim blocks,
+  comments, figure files, a hand-written `.bbl` or the printed PDF, and display equations only reach
+  the review list, so a result stated only there needs a row added by hand.
+- It is built to catch mistakes and careless shortcuts. It does not stop deliberate forgery: a
+  generator that adds an offset to a real result, or that detects it is being tested, passes. A
+  program that fakes a terminal could also acknowledge the list. Numbers computed in LaTeX itself
+  (pgfmath, counters) are not seen. A number that responds to only some of a source passes.
+- It checks that a generated file is what its command prints now, that each calculation gives the
+  printed number, and, for Python generators, that the numbers come from the declared sources. It
+  cannot show that the analysis is right.
+- Generators outside Python are rerun but not traced, and go on the review list. What a Python
+  generator reads through another program or a C library is not traced either; running another
+  program goes on the list. Values kept in `MANIFEST.txt`, which any generator may read, are not
+  tested.
+- It trusts the kind a row states, so a result recorded as `exempt` reaches a person through the
+  review list and goes no further on its own.
 - For a citation it checks the key, and that the manuscript cites it. Whether the source supports
   the sentence is a judgement: `claim-fact-checker` tests it.
 - It refuses records reading `_ARCHIVE`, and calculations on a `results/<run>` with no `MANIFEST.txt`.
