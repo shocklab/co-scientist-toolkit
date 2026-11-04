@@ -74,11 +74,15 @@ project folder first, since each scene imports it from beside itself.
 
        python3 $X/check_video.py <folder> <path to the .mp4>
 
-   It fails if the audio track is shorter than the narration, and writes `contact-sheet.png`
-   with two frames per line. Read the sheet and look at every frame for text touching a curve,
-   an arrow or another label, labels running off the frame, and anything shown before the
-   narration names it. Fix, re-render, re-check. State in the report which frames were inspected;
-   the sheet samples frames and is not the whole video, and nobody has listened to it unless
+   It fails if the audio track is shorter than the narration, and writes two kinds of sheet.
+   `contact-sheet.png` has two frames per line, after the animations have settled.
+   `transitions-1.png` and the sheets after it have a frame every quarter second while the
+   picture is moving, which is where text usually runs into other text. Read every sheet and look
+   at every frame for text touching a curve, an arrow or another label, captions scrambled or
+   drawn over each other, labels running off the frame, and anything shown before the narration
+   names it. Text that is partly written in is expected mid-animation; two texts drawn into each
+   other are not. Fix, re-render, re-check. State in the report which sheets were inspected; the
+   sheets sample frames and are not the whole video, and nobody has listened to it unless
    someone did.
 
 5. **Deliver.** Copy the final render next to its script with a plain name and tell the user
@@ -91,6 +95,13 @@ project folder first, since each scene imports it from beside itself.
 - Use `Axes` with equal x and y scale when geometry matters (contours, angles); set `x_length`
   and `y_length` in proportion to the ranges.
 - Fade out a helper (an arrow, a highlight) before drawing what it would sit on.
+- Change a caption by fading the old one out and then fading the new one in, as two
+  animations. A `Transform` or `ReplacementTransform` between two texts morphs the letters into
+  each other, and both are unreadable while it plays.
+- Let text finish leaving a place before anything is written there. Fading a caption out while
+  a formula is written in the same spot draws one over the other.
+- Never put an empty string among caption lines stacked with `arrange`: an empty `Text` has no
+  size, so the lines around it crowd together or overlap. Use `buff` on `arrange` for a gap.
 - Dark background with theme colours set once at the top of the file; `MathTex` with explicit
   `color`, since its default is white.
 
@@ -100,7 +111,9 @@ project folder first, since each scene imports it from beside itself.
   full video but lost about 10 seconds of narration. `--disable_caching` prevents it, and
   `check_video.py` catches it.
 - **Overlaps.** The first render of the example drew the gradient arrow on top of the first
-  step's line. Code written blind gets positions wrong; only the frames show it.
+  step's line. Code written blind gets positions wrong; only the frames show it. Overlaps that
+  last only while an animation plays appear on the transition sheets and not on the contact
+  sheet.
 - **Timing drift.** If a scene plays animations outside `segment()`, the narration and the
   picture slip apart, and the contact sheet's frame times are off by the same amount. Keep every
   animation inside a segment.
