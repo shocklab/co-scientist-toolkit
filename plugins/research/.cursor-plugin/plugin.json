@@ -1,0 +1,20 @@
+{
+  "name": "research",
+  "displayName": "Research",
+  "version": "0.1.0",
+  "description": "Working discipline for research: decide whether an idea is worth pursuing and pre-register predictions, check whether an iterative loop is converging, run hard problems through five gates, put decisions on a page to tick, and use Mathematica for exact and high-precision work",
+  "author": {
+    "name": "Jonathan Shock",
+    "url": "https://github.com/shocklab"
+  },
+  "repository": "https://github.com/shocklab/co-scientist-toolkit",
+  "license": "MIT",
+  "keywords": [
+    "research",
+    "pre-registration",
+    "reproducibility",
+    "mathematica",
+    "rigour",
+    "decisions"
+  ]
+}

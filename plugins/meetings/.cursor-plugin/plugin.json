@@ -1,0 +1,19 @@
+{
+  "name": "meetings",
+  "displayName": "Meetings",
+  "version": "0.1.0",
+  "description": "Skills for recording and transcribing meetings on your own Mac with the meeting tool in this repository (OBS, whisper.cpp, pyannote); nothing is uploaded",
+  "author": {
+    "name": "Jonathan Shock",
+    "url": "https://github.com/shocklab"
+  },
+  "repository": "https://github.com/shocklab/co-scientist-toolkit",
+  "license": "MIT",
+  "keywords": [
+    "meetings",
+    "transcription",
+    "whisper",
+    "privacy",
+    "local"
+  ]
+}

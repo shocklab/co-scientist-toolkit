@@ -1,0 +1,21 @@
+{
+  "name": "papers",
+  "displayName": "Papers",
+  "version": "0.1.0",
+  "description": "Fetch arXiv source, turn PDFs into Markdown locally, verify references, review papers and import them into Zotero, with a hook that keeps the full text of subscription papers out of the conversation",
+  "author": {
+    "name": "Jonathan Shock",
+    "url": "https://github.com/shocklab"
+  },
+  "repository": "https://github.com/shocklab/co-scientist-toolkit",
+  "license": "MIT",
+  "keywords": [
+    "papers",
+    "pdf",
+    "arxiv",
+    "references",
+    "licences",
+    "research",
+    "zotero"
+  ]
+}

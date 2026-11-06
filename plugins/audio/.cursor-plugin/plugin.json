@@ -1,0 +1,19 @@
+{
+  "name": "audio",
+  "displayName": "Audio",
+  "version": "0.1.0",
+  "description": "Speech from text and papers read aloud on your own Mac with Kokoro-82M, through the pdf2audio tools; no text or audio leaves the machine",
+  "author": {
+    "name": "Jonathan Shock",
+    "url": "https://github.com/shocklab"
+  },
+  "repository": "https://github.com/shocklab/co-scientist-toolkit",
+  "license": "MIT",
+  "keywords": [
+    "audio",
+    "text-to-speech",
+    "kokoro",
+    "local",
+    "papers"
+  ]
+}
